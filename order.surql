@@ -1,2 +1,5 @@
-DEFINE TABLE customer_order TYPE RELATION FROM customer TO product;
-DEFINE TABLE vendor_order TYPE RELATION FROM product TO vendor;
+REMOVE TABLE IF EXISTS order;
+-- REMOVE TABLE IF EXISTS vendor_order;
+
+DEFINE TABLE order TYPE RELATION FROM customer TO vendor;
+DEFINE FIELD ordered_product ON order TYPE record<product>;
