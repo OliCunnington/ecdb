@@ -3,3 +3,8 @@ REMOVE TABLE IF EXISTS order;
 
 DEFINE TABLE order TYPE RELATION FROM customer TO vendor;
 DEFINE FIELD ordered_product ON order TYPE record<product>;
+
+-- status {processing, shipped, complete}
+-- delivery address
+
+-- actions? {cancel, schedule, track} ?
