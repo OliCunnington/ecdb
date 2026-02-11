@@ -6,6 +6,7 @@ DEFINE TABLE product TYPE NORMAL SCHEMAFULL;
 --      min stock ? -> notify for re-supply?
 
 -- price
+--  product group:
 --      variants ? eg. [100g, 250g, 500g, ...], [1, 3, 5, ...] etc 
 
 -- categorys []
@@ -18,3 +19,5 @@ DEFINE TABLE product TYPE NORMAL SCHEMAFULL;
 
 -- description
 --   full text searches ?
+
+
