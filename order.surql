@@ -8,3 +8,12 @@ DEFINE FIELD ordered_product ON order TYPE record<product>;
 -- delivery address
 
 -- actions? {cancel, schedule, track} ?
+
+-- multiple items ?
+-- quantity
+
+-- order {
+--     prod1 x 3,
+--     prod2 x 1,
+--     prod3 x 2
+-- }

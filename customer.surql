@@ -16,3 +16,13 @@ DEFINE TABLE customer TYPE NORMAL SCHEMAFULL;
 -- reviews [<review>]
 -- cart
 -- wishlist ?
+
+
+-- customer searches for item
+--      buy now         -> purchase
+--      add to cart     -> ...      -> purchase
+--      add to wishlist -> ...      -> purchase
+
+-- recomendations
+--  based on purchase history
+--  based on current product
