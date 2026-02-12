@@ -37,7 +37,7 @@ DEFINE FIELD billing_details.*.state        ON TABLE customer TYPE string;
 DEFINE FIELD billing_details.*.country      ON TABLE customer TYPE string;
 
 -- purchase hist [<order>]
-DEFINE FIELD purchase_history               ON TABLE customer TYPE array<record<purchase>>;
+DEFINE FIELD purchase_history               ON TABLE customer TYPE array<record<order>>;
 
 -- reviews [<review>]
 DEFINE FIELD reviews                        ON TABLE customer TYPE array<record<review>>;
@@ -59,3 +59,10 @@ DEFINE FIELD wishlist                       ON TABEL customer TYPE array<record<
 
 -- recomendations displayed on product page
 --  based on current product
+
+
+-- seperate address' ?
+--  used in at least 3 places,
+--      delivery
+--      billing
+--      store/warehouse
