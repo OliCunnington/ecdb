@@ -21,10 +21,8 @@ DEFINE FIELD deliver_address.*.state        ON TABLE customer TYPE string;
 DEFINE FIELD deliver_address.*.country      ON TABLE customer TYPE string;
 
 -- billing details {
---  [
 --      payment method (encrypt card details ?)
 --      billing addr
---  ]
 -- }
 DEFINE FIELD billing_details                ON TABLE customer TYPE array<object>;
 DEFINE FIELD billing_details.*.name         ON TABLE customer TYPE string;
@@ -39,9 +37,16 @@ DEFINE FIELD billing_details.*.state        ON TABLE customer TYPE string;
 DEFINE FIELD billing_details.*.country      ON TABLE customer TYPE string;
 
 -- purchase hist [<order>]
+DEFINE FIELD purchase_history               ON TABLE customer TYPE array<record<purchase>>;
+
 -- reviews [<review>]
+DEFINE FIELD reviews                        ON TABLE customer TYPE array<record<review>>;
+
 -- cart
+DEFINE FIELD cart                           ON TABEL customer TYPE array<record<product>>;
+
 -- wishlist ?
+DEFINE FIELD wishlist                       ON TABEL customer TYPE array<record<product>>;
 
 
 -- customer searches for item
@@ -49,6 +54,8 @@ DEFINE FIELD billing_details.*.country      ON TABLE customer TYPE string;
 --      add to cart     -> ...      -> purchase
 --      add to wishlist -> ...      -> purchase
 
--- recomendations
+-- recomendations displayed on mainpage
 --  based on purchase history
+
+-- recomendations displayed on product page
 --  based on current product
