@@ -7,6 +7,9 @@ wait 1
 surreal import -u root -p root --ns main --db ecdb ./product.surql
 wait 1
 
+surreal import -u root -p root --ns main --db ecdb ./params.surql
+wait 1
+
 surreal import -u root -p root --ns main --db ecdb ./order.surql
 wait 1
 
