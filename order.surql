@@ -20,3 +20,6 @@ DEFINE FIELD status                     ON TABLE order TYPE string ASSERT $value
 
 
 -- actions? {cancel, schedule, track} ?
+-- issue / complaint
+-- option relation?
+--   open 'ticket' if none through web?

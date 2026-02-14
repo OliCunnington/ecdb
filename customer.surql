@@ -14,10 +14,6 @@ DEFINE FIELD delivery_address.*.post_code    ON TABLE customer TYPE string;
 DEFINE FIELD delivery_address.*.state        ON TABLE customer TYPE string;
 DEFINE FIELD delivery_address.*.country      ON TABLE customer TYPE string;
 
--- billing details {
---      payment method (encrypt card details ?)
---      billing addr
--- }
 DEFINE FIELD billing_details                ON TABLE customer TYPE array<object>;
 DEFINE FIELD billing_details.*.name         ON TABLE customer TYPE string;
 DEFINE FIELD billing_details.*.card         ON TABLE customer TYPE object;
