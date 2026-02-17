@@ -15,7 +15,8 @@ use crate::{
 pub async fn create_router(app_state: AppState) -> Router {
     let api_routes = Router::new()
         .route("/check/alive", get(check::health_check_alive))
-        .route("/check/ready", get(check::health_check_ready));
+        .route("/check/ready", get(check::health_check_ready))
+        .route("/root", get(check::root));
 
     Router::new()
         .nest("/api", api_routes)

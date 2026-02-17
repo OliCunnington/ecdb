@@ -3,6 +3,14 @@ name = "ecdb"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "ecdb"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ecdb"
+path = "src/main.rs"
+
 [dependencies]
 anyhow = "1.0.101"
 axum = "0.8.8"
