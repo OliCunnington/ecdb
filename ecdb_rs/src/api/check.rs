@@ -180,6 +180,6 @@ pub async fn health_check_ready(State(app_state): State<AppState>) -> impl IntoR
 }
 
 // basic handler that responds with a static string
-pub async fn root() -> &'static str {
+pub async fn hello_world() -> &'static str {
     "Hello, World!"
 }
