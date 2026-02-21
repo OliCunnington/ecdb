@@ -1,0 +1,24 @@
+So product could be split into seperate tables
+- customer doesnt necassarily care for stock, as long as its over 1
+- sku and supply related info in seperate table
+
+Offers and bundles
+- modified, limited time price etc
+
+"Listener" on product stock count
+- updates "top sellers"
+- auto-order restock
+- "live" reports
+
+timestamping
+- this week/month/periods best sellers, 
+
+- orders table needs agr statements to use as template for top sales
+- ranks recommendations off top sellers and reviews
+
+- wishlist and order history agr category func?
+
+- buys tea -> recommended tea pot, tea spoon, mug (how?)
+-   frequently purchased with req transactions
+-   "tea" keyword would not return mug... unless description searched too "great for tea" 
+
