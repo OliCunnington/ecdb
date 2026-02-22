@@ -1,9 +1,13 @@
 So product could be split into seperate tables
 - customer doesnt necassarily care for stock, as long as its over 1
 - sku and supply related info in seperate table
+- prodct, product_details, product_supply ?
+- re-supply of product needs to be of specified variation (no black hoodies doesnt mean you need 30 blue and red ones too)
 
 Offers and bundles
 - modified, limited time price etc
+- buy x get x free
+- bundles
 
 "Listener" on product stock count
 - updates "top sellers"
@@ -11,7 +15,8 @@ Offers and bundles
 - "live" reports
 
 timestamping
-- this week/month/periods best sellers, 
+- this week/month/periods best sellers,
+- surrealDB datetime stuff should be fine for that  
 
 - orders table needs agr statements to use as template for top sales
 - ranks recommendations off top sellers and reviews
@@ -22,3 +27,14 @@ timestamping
 -   frequently purchased with req transactions
 -   "tea" keyword would not return mug... unless description searched too "great for tea" 
 
+- complaints/issues
+-  order returns
+-  shipping issues
+
+product "group/variation"
+- sizes
+- colors
+- quantities
+- product_group
+-   list of all associated products?
+- when fetching product, check for product group?

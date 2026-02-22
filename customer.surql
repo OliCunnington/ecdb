@@ -7,12 +7,12 @@ DEFINE FIELD name.first                     ON TABLE customer TYPE string;
 DEFINE FIELD name.middle                    ON TABLE customer TYPE option<string>;
 DEFINE FIELD name.last                      ON TABLE customer TYPE string;
 
-DEFINE FIELD delivery_address                ON TABLE customer TYPE option<array<object>>;
-DEFINE FIELD delivery_address.*.line1        ON TABLE customer TYPE string;
-DEFINE FIELD delivery_address.*.line2        ON TABLE customer TYPE option<string>;
-DEFINE FIELD delivery_address.*.post_code    ON TABLE customer TYPE string;
-DEFINE FIELD delivery_address.*.state        ON TABLE customer TYPE string;
-DEFINE FIELD delivery_address.*.country      ON TABLE customer TYPE string;
+DEFINE FIELD delivery_address               ON TABLE customer TYPE option<array<object>>;
+DEFINE FIELD delivery_address.*.line1       ON TABLE customer TYPE string;
+DEFINE FIELD delivery_address.*.line2       ON TABLE customer TYPE option<string>;
+DEFINE FIELD delivery_address.*.post_code   ON TABLE customer TYPE string;
+DEFINE FIELD delivery_address.*.state       ON TABLE customer TYPE string;
+DEFINE FIELD delivery_address.*.country     ON TABLE customer TYPE string;
 
 DEFINE FIELD billing_details                ON TABLE customer TYPE option<array<object>>;
 DEFINE FIELD billing_details.*.name         ON TABLE customer TYPE string;

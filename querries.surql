@@ -6,6 +6,7 @@ SELECT
     
     FROM product;
 -- ORDER BY {filter selection}
+-- LIMIT {page_max} or [n..n+page_max]
 
 -- product
 SELECT VALUE
@@ -14,6 +15,8 @@ SELECT VALUE
     WHERE $id = product.id
     LIMIT 1;
 
+-- recommended based on current product categorys & ordered by average_rating
+-- TODO filter same product "group/variant"
 SELECT
     name,
     price,
@@ -27,3 +30,12 @@ ORDER BY
     product.average_rating
 DESC
 LIMIT 3;
+
+-- update stock on order creation
+DEFINE EVENT order_submitted ON TABLE order
+    WHEN $event = "CREATE"
+    THEN {
+        FOR $product IN $after.items {
+            UPDATE $prodct.product SET stock -= $prodct.quantity;
+        };
+    };
