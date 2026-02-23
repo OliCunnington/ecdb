@@ -15,3 +15,5 @@ DEFINE FIELD average_rating ON TABLE product VALUE <future> {
 
 DEFINE FIELD supplied_by    ON TABLE product TYPE record<supplier>;
 DEFINE FIELD volume         ON TABLE product TYPE int;
+
+DEFINE FIELD group          ON TABLE product TYPE option<record<group>>;
