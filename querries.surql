@@ -38,4 +38,17 @@ DEFINE EVENT order_submitted ON TABLE order
         FOR $product IN $after.items {
             UPDATE $prodct.product SET stock -= $prodct.quantity;
         };
+--        UPDATE $after.customer.open_orders SET VALUE $after.id;
+    };
+
+-- update stock on order cancellation
+DEFINE EVENT order_submitted ON TABLE order
+    WHEN $event = "UPDATE"
+    THEN {
+        IF $after.status = "Cancelled" {
+            FOR $product IN $after.items {
+                UPDATE $prodct.product SET stock += $prodct.quantity;
+            };
+        }
+--      move order to purchase_history?
     };
