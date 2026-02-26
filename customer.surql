@@ -26,7 +26,6 @@ DEFINE FIELD billing_details.*.post_code    ON TABLE customer TYPE string;
 DEFINE FIELD billing_details.*.state        ON TABLE customer TYPE string;
 DEFINE FIELD billing_details.*.country      ON TABLE customer TYPE string;
 
-DEFINE FIELD open_orders                    ON TABLE customer TYPE array<record<order>>;
 DEFINE FIELD purchase_history               ON TABLE customer TYPE array<record<order>>;
 DEFINE FIELD reviews                        ON TABLE customer TYPE array<record<review>>;
 

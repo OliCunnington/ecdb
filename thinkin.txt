@@ -38,3 +38,6 @@ product "group/variation"
 - product_group
 -   list of all associated products?
 - when fetching product, check for product group?
+
+order history
+- open/complete orders can be handled on the qurrie side (via order status)
