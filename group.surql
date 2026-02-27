@@ -6,3 +6,5 @@ DEFINE FIELD products ON TABLE group TYPE array<record<prodct>>;
 
 -- variations?
 -- list of fields that or values that differ? 
+-- should probably link related products instead
+-- use this as more of a "special offers/bundles" option

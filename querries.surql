@@ -51,3 +51,10 @@ DEFINE EVENT order_submitted ON TABLE order
             };
         }
     };
+
+-- * handled in schema * --
+-- purchase_history (complete) (token? session?)
+-- SELECT * FROM order WHERE customer = $token.id AND status = "Completed";
+
+-- open orders
+-- SELECT * FROM order WHERE customer = $token.id AND status IN ["Shipped", "Processing"];
