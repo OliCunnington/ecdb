@@ -1,7 +1,6 @@
 REMOVE TABLE IF EXISTS order;
 
 DEFINE TABLE order TYPE RELATION FROM customer TO vendor;
-DEFINE FIELD ordered_product ON order TYPE record<product>;
 
 DEFINE FIELD customer                   ON TABLE order TYPE record<customer>;
 
@@ -20,6 +19,7 @@ DEFINE FIELD item.*.quantity            ON TABLE order TYPE int;
 -- status {processing, shipped, complete}
 DEFINE FIELD status                     ON TABLE order TYPE string ASSERT $value IN $ORDER_STATUS;
 
+DEFINE FIELD order_date                 ON TABLE order TYPE datetime;
 
 -- actions? {cancel, schedule, track} ?
 -- issue / complaint

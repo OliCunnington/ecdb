@@ -30,11 +30,11 @@ DEFINE FIELD cart                           ON TABLE customer TYPE array<record<
 DEFINE FIELD wishlist                       ON TABLE customer TYPE array<record<product>>;
 
 DEFINE FIELD purchase_history               ON TABLE customer VALUE <future> {
-    SELECT VALUE * FROM order WHERE customer = $id AND status = "Completed";
+    SELECT order_date, items FROM order WHERE customer = $id AND status = "Completed";
 }; -- array<record<order>>;
 DEFINE FIELD open_orders                    ON TABLE customer VALUE <future> {
-    SELECT VALUE * FROM order WHERE customer = $id AND status IN ["Processing", "Shipped"];
+    SELECT order_date, items FROM order WHERE customer = $id AND status IN ["Processing", "Shipped"];
 }; -- array<record<order>>;
 DEFINE FIELD reviews                        ON TABLE customer VALUE <future> {
-    SELECT VALUE * FROM review WHERE customer = $id;
+    SELECT creation_date, score, order FROM review WHERE customer = $id;
 }; --TYPE array<record<review>>;

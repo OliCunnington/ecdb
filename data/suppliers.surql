@@ -1,8 +1,12 @@
-INSERT INTO customer [
+INSERT INTO supplier [
     {
-        name: '',
-        min_volume: '',
-        max_volume: '',
+        name:'Abc Inc',
+        min_volume:'5',
+        max_volume:'50',
+    },{
+        name:'Bcd ltd',
+        min_volume:'3',
+        max_volume:'30',
     },
     
 ];
