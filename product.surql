@@ -10,7 +10,7 @@ DEFINE FIELD categorys      ON TABLE product TYPE array<string>;
 
 DEFINE FIELD reviews        ON TABLE product TYPE array<record<review>>;
 
-DEFINE FIELD supplied_by    ON TABLE product TYPE record<supplier>;
+DEFINE FIELD supplied_by    ON TABLE product TYPE option<record<supplier>>;
 DEFINE FIELD volume         ON TABLE product TYPE int;
 
 -- DEFINE FIELD group          ON TABLE product TYPE option<record<group>>;

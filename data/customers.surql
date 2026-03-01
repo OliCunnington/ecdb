@@ -7,6 +7,8 @@ INSERT INTO customer [
         },
         delivery_address:[],
         billing_details:[],
+        cart:[],
+        wishlist:[],
     },{
         name:{
             first:'Bob',
@@ -15,6 +17,8 @@ INSERT INTO customer [
         },
         delivery_address:[],
         billing_details:[],
+        cart:[],
+        wishlist:[],
     },{
         name:{
             first:'Charlie',
@@ -23,6 +27,8 @@ INSERT INTO customer [
         },
         delivery_address:[],
         billing_details:[],
+        cart:[],
+        wishlist:[],
     },
     
 ];

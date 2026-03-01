@@ -4,6 +4,7 @@ use axum::{
     Json
 };
 use serde_json::{json, Value};
+use serde::{Serialize, Deserialize};
 
 use crate::{
     state::AppState,
@@ -182,4 +183,19 @@ pub async fn health_check_ready(State(app_state): State<AppState>) -> impl IntoR
 // basic handler that responds with a static string
 pub async fn hello_world() -> &'static str {
     "Hello, World!"
+}
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String
+}
+
+pub async fn get_customers(State(app_state): State<AppState>) -> Json<Value> {
+    match app_state.db.query("SELECT name FROM customer").await {
+        Ok(mut x) => Json(json!(x.take::<Vec<Person>>("name"))),
+        Err(_) => Json(json!({ 
+            "status": "not ready", 
+            "database": "disconnected" 
+        }))
+    }
 }
