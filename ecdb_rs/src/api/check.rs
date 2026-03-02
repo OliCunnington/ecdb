@@ -187,12 +187,19 @@ pub async fn hello_world() -> &'static str {
 
 #[derive(Serialize, Deserialize)]
 struct Person {
-    name: String
+    first: String,
+    middle: String,
+    last: String
 }
 
 pub async fn get_customers(State(app_state): State<AppState>) -> Json<Value> {
-    match app_state.db.query("SELECT name FROM customer").await {
-        Ok(mut x) => Json(json!(x.take::<Vec<Person>>("name"))),
+    match app_state.db.query("SELECT VALUE name FROM customer").await {
+        Ok(mut x) => {
+            println!("{x:?}");
+            let res = json!(x.take::<Vec<Person>>(0));
+            // println!("{}", serde_json::to_string_pretty(&res).unwrap());
+            Json(res)
+        },
         Err(_) => Json(json!({ 
             "status": "not ready", 
             "database": "disconnected" 
