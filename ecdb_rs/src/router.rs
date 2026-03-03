@@ -17,7 +17,8 @@ pub async fn create_router(app_state: AppState) -> Router {
         .route("/check/alive", get(check::health_check_alive))
         .route("/check/ready", get(check::health_check_ready))
         .route("/test", get(check::hello_world))
-        .route("/customers", get(check::get_customers));
+        .route("/customers", get(check::get_customers))
+        .route("/products", get(check::get_products));
 
     Router::new()
         .nest("/api", api_routes)

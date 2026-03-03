@@ -5,7 +5,7 @@ use axum::{
 };
 use serde_json::{json, Value};
 use serde::{Serialize, Deserialize};
-
+use surrealdb::RecordId;
 use crate::{
     state::AppState,
 };
@@ -194,11 +194,34 @@ struct Person {
 
 pub async fn get_customers(State(app_state): State<AppState>) -> Json<Value> {
     match app_state.db.query("SELECT VALUE name FROM customer").await {
+        Ok(mut x) => Json(json!(x.take::<Vec<Person>>(0))),
+        Err(_) => Json(json!({ 
+            "status": "not ready", 
+            "database": "disconnected" 
+        }))
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+struct Product {
+    id: RecordId,
+    name: String,
+    stock: i32,
+    price: f64,
+    description: String,
+    volume: i32,
+    categorys: Vec<String>,
+    supplied_by: Option<String>,
+    reviews: Vec<String>,
+    average_rating: f64,
+}
+
+pub async fn get_products(State(app_state): State<AppState>) -> Json<Value> {
+    match app_state.db.query("SELECT * FROM product").await {
         Ok(mut x) => {
-            println!("{x:?}");
-            let res = json!(x.take::<Vec<Person>>(0));
-            // println!("{}", serde_json::to_string_pretty(&res).unwrap());
-            Json(res)
+            // println!("{x:?}");
+            let r : Vec<Product> = x.take(0).unwrap();
+            Json(json!(r))
         },
         Err(_) => Json(json!({ 
             "status": "not ready", 
