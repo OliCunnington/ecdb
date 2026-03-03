@@ -7,12 +7,25 @@
 </head>
 <main>
     <body>
-        <p id='output'></p>
+        <p id='output_test'></p>
+        </br>
+        <p id='output_customers'></p>
+        </br>
+        <p id='output_products'></p>
     </body>
     <script>
         const message = fetch("http://127.0.0.1:3000/api/test")
                             .then(response => response.text())
-                            .then(data => document.getElementById('output').textContent = data)
+                            .then(data => document.getElementById('output_test').textContent = data)
+                            .catch(error => console.error('Error:', error));
+                            
+        const message2 = fetch("http://127.0.0.1:3000/api/customers")
+                            .then(response => response.json())
+                            .then(data => document.getElementById('output_customers').textContent = JSON.stringify(data))
+                            .catch(error => console.error('Error:', error));
+        const message3 = fetch("http://127.0.0.1:3000/api/products")
+                            .then(response => response.json())
+                            .then(data => document.getElementById('output_products').textContent = JSON.stringify(data))
                             .catch(error => console.error('Error:', error));
     </script>
 </main>
