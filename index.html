@@ -12,8 +12,54 @@
         <p id='output_customers'></p>
         </br>
         <p id='output_products'></p>
+        </br>
+        <div class="log-form">
+        <h2>Login to your account</h2>
+            <form style="display: block;">
+                <input style="display: block;" id="name" type="text" title="name" placeholder="name" />
+                <input style="display: block;" id="email" type="text" title="email" placeholder="email" />
+                <input style="display: block;" id="password" type="password" title="password" placeholder="password" />
+                <button id= "signin_btn" type="submit" class="btn">Signin</button>
+                <button id= "signup_btn" type="submit" class="btn">Signup</button>
+                <!-- <a class="forgot" href="#">Forgot Username?</a> -->
+            </form>
+        </div>
+        </br>
+        <p id="form_response"></p>
     </body>
     <script>
+        var payload_signin = {
+            namespace: "main",
+            database: "ecdb",
+            access: "account",
+            params: {
+                email: "",
+                password: ""
+            },
+        };
+
+        var signup_btn = document.getElementById('signup_btn');
+        signup_btn.onclick = function(event){
+            var message = fetch("http://127.0.0.1:3000/api/sing_up", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        namespace: "main",
+                        database: "ecdb",
+                        access: "account",
+                        params: {
+                            name: document.getElementById('name').value,
+                            email: document.getElementById('email').value,
+                            password: document.getElementById('password').value
+                        }
+                    })
+                }).then(response => response.json())
+                .then(data => document.getElementById('form_response').textContent = JSON.stringify(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        var signin_btn = document.getElementById('signin_btn');
+
         const message = fetch("http://127.0.0.1:3000/api/test")
                             .then(response => response.text())
                             .then(data => document.getElementById('output_test').textContent = data)

@@ -1,5 +1,6 @@
 use axum::{
-    routing::get, 
+    routing::get,
+    routing::post, 
     Router,
 };
 use tower_http::{
@@ -18,7 +19,8 @@ pub async fn create_router(app_state: AppState) -> Router {
         .route("/check/ready", get(check::health_check_ready))
         .route("/test", get(check::hello_world))
         .route("/customers", get(check::get_customers))
-        .route("/products", get(check::get_products));
+        .route("/products", get(check::get_products))
+        .route("/signup", post(check::sign_up));
 
     Router::new()
         .nest("/api", api_routes)

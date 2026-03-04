@@ -6,6 +6,7 @@ use axum::{
 use serde_json::{json, Value};
 use serde::{Serialize, Deserialize};
 use surrealdb::RecordId;
+use surrealdb::opt::auth::Record;
 use crate::{
     state::AppState,
 };
@@ -228,4 +229,46 @@ pub async fn get_products(State(app_state): State<AppState>) -> Json<Value> {
             "database": "disconnected" 
         }))
     }
+}
+
+#[derive(Deserialize, Serialize)]
+struct AuthParams {
+    name: String,
+    email: String,
+    password: String,
+}
+
+#[derive(Serialize)]
+struct Credentials<'a> {
+    name: &'a str,
+    email: &'a str,
+    pass: &'a str,
+}
+
+#[derive(Deserialize, Serialize)]
+struct SignupData {
+    namespace: String,
+    database: String,
+    access: String,
+    params: AuthParams 
+}
+
+#[derive(Deserialize, Serialize)]
+struct User{
+    code: i32,
+    details: String,
+    token: String
+}
+
+pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Result<User, Err> {//Json<User> {
+    app_state.db.signup(Record {
+                namespace: "main",
+                database: "ecdb",
+                access: "account",
+                params: Credentials {
+                    name: &payload.params.name,
+                    email: &payload.params.email,
+                    pass: &payload.params.password,
+                }
+            },).await
 }
