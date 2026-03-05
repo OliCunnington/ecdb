@@ -7,6 +7,7 @@
 </head>
 <main>
     <body>
+        <button id= "logout_btn" type="submit" class="btn">LOG OUT</button>
         <p id='output_test'></p>
         </br>
         <p id='output_customers'></p>
@@ -40,18 +41,13 @@
 
         var signup_btn = document.getElementById('signup_btn');
         signup_btn.onclick = function(event){
-            var message = fetch("http://127.0.0.1:3000/api/sing_up", {
+            var message = fetch("http://127.0.0.1:3000/api/signup", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        namespace: "main",
-                        database: "ecdb",
-                        access: "account",
-                        params: {
-                            name: document.getElementById('name').value,
-                            email: document.getElementById('email').value,
-                            password: document.getElementById('password').value
-                        }
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value
                     })
                 }).then(response => response.json())
                 .then(data => document.getElementById('form_response').textContent = JSON.stringify(data))

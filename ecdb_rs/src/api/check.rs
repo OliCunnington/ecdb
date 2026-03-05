@@ -232,43 +232,58 @@ pub async fn get_products(State(app_state): State<AppState>) -> Json<Value> {
 }
 
 #[derive(Deserialize, Serialize)]
-struct AuthParams {
+pub struct SignupData {
     name: String,
     email: String,
     password: String,
 }
 
-#[derive(Serialize)]
-struct Credentials<'a> {
-    name: &'a str,
-    email: &'a str,
-    pass: &'a str,
-}
-
 #[derive(Deserialize, Serialize)]
-struct SignupData {
-    namespace: String,
-    database: String,
-    access: String,
-    params: AuthParams 
+struct SigninData {
+    email: String,
+    password: String,
 }
 
-#[derive(Deserialize, Serialize)]
-struct User{
-    code: i32,
-    details: String,
-    token: String
-}
 
-pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Result<User, Err> {//Json<User> {
-    app_state.db.signup(Record {
+
+pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {//Json<User> {
+    match app_state.db.signup(Record {
                 namespace: "main",
                 database: "ecdb",
                 access: "account",
-                params: Credentials {
-                    name: &payload.params.name,
-                    email: &payload.params.email,
-                    pass: &payload.params.password,
+                params: SignupData {
+                    name: payload.name,
+                    email: payload.email,
+                    password: payload.password,
                 }
-            },).await
+            })
+            .await {
+                Ok(x) => {
+                    println!("{x:?}");
+                    Json(json!({
+                        "token" : x.into_insecure_token()
+                    }))
+                },
+                Err(_) => Json(json!({ 
+                    "status": "error", 
+                    "database": "unable to signup" 
+                }))
+        }
+}
+
+// pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<User> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {
+//     app_state.db.signin(Record {
+//                 namespace: "main",
+//                 database: "ecdb",
+//                 access: "account",
+//                 params: SigninData {
+//                     email: payload.email,
+//                     password: payload.password,
+//                 }
+//             },).await
+// }
+
+pub async fn sign_out(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> {
+    Json(json!({}))
+    //app_state.db.invalidate().await?; // this would do it for root??
 }

@@ -22,6 +22,9 @@ wait 1
 surreal import -u root -p root --ns main --db ecdb ./review.surql
 wait 1
 
+surreal import -u root -p root --ns main --db ecdb ./users.surql
+wait 1
+
 surreal import -u root -p root --ns main --db ecdb ./data/customers.surql
 wait 1
 
