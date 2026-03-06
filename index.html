@@ -29,16 +29,6 @@
         <p id="form_response"></p>
     </body>
     <script>
-        var payload_signin = {
-            namespace: "main",
-            database: "ecdb",
-            access: "account",
-            params: {
-                email: "",
-                password: ""
-            },
-        };
-
         var signup_btn = document.getElementById('signup_btn');
         signup_btn.onclick = function(event){
             var message = fetch("http://127.0.0.1:3000/api/signup", {
@@ -52,9 +42,21 @@
                 }).then(response => response.json())
                 .then(data => document.getElementById('form_response').textContent = JSON.stringify(data))
                 .catch(error => console.error('Error:', error));
-        }
+        };
 
         var signin_btn = document.getElementById('signin_btn');
+        signup_btn.onclick = function(event){
+            var message = fetch("http://127.0.0.1:3000/api/signin", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value
+                    })
+                }).then(response => response.json())
+                .then(data => document.getElementById('form_response').textContent = JSON.stringify(data))
+                .catch(error => console.error('Error:', error));
+        };
 
         const message = fetch("http://127.0.0.1:3000/api/test")
                             .then(response => response.text())

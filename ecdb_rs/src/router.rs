@@ -21,6 +21,7 @@ pub async fn create_router(app_state: AppState) -> Router {
         .route("/customers", get(check::get_customers))
         .route("/products", get(check::get_products))
         .route("/signup", post(check::sign_up))
+        .route("/signin", post(check::sign_in))
         .route("/signout", post(check::sign_out));
 
     Router::new()

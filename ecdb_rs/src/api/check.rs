@@ -268,20 +268,32 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
                     "status": "error", 
                     "database": "unable to signup" 
                 }))
-        }
+            }
 }
 
-// pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<User> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {
-//     app_state.db.signin(Record {
-//                 namespace: "main",
-//                 database: "ecdb",
-//                 access: "account",
-//                 params: SigninData {
-//                     email: payload.email,
-//                     password: payload.password,
-//                 }
-//             },).await
-// }
+pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {
+    match app_state.db.signin(Record {
+                namespace: "main",
+                database: "ecdb",
+                access: "account",
+                params: SigninData {
+                    email: payload.email,
+                    password: payload.password,
+                }
+            })
+            .await {
+                Ok(x) => {
+                    println!("{x:?}");
+                    Json(json!({
+                        "token" : x.into_insecure_token()
+                    }))
+                },
+                Err(_) => Json(json!({ 
+                    "status": "error", 
+                    "database": "unable to signup" 
+                }))
+            }
+}
 
 pub async fn sign_out(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> {
     Json(json!({}))
