@@ -186,6 +186,20 @@ pub async fn hello_world() -> &'static str {
     "Hello, World!"
 }
 
+pub async fn get_session_ac(State(app_state): State<AppState>) -> Json<Value> {
+        match app_state.db.query("RETURN session::ac()").await {
+            Ok(mut x) => {
+                println!("{x:?}");
+                // Json(json!(x.take(0))) //.unwrap()))
+                Json(json!({}))
+            },
+            Err(x) => Json(json!({
+                "status": "Error",
+                "error" : x.to_string()
+            }))
+        }
+}
+
 #[derive(Serialize, Deserialize)]
 struct Person {
     first: String,
@@ -220,7 +234,7 @@ struct Product {
 pub async fn get_products(State(app_state): State<AppState>) -> Json<Value> {
     match app_state.db.query("SELECT * FROM product").await {
         Ok(mut x) => {
-            // println!("{x:?}");
+            println!("{x:?}");
             let r : Vec<Product> = x.take(0).unwrap();
             Json(json!(r))
         },
@@ -264,10 +278,13 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
                         "token" : x.into_insecure_token()
                     }))
                 },
-                Err(_) => Json(json!({ 
-                    "status": "error", 
-                    "database": "unable to signup" 
-                }))
+                Err(x) => {
+                    println!("{x:?}");
+                    Json(json!({ 
+                        "status": "error", 
+                        "database": "unable to signup" 
+                    }))
+                }
             }
 }
 
@@ -288,10 +305,13 @@ pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<Sign
                         "token" : x.into_insecure_token()
                     }))
                 },
-                Err(_) => Json(json!({ 
-                    "status": "error", 
-                    "database": "unable to signup" 
-                }))
+                Err(x) => { 
+                    println!("{x:?}");
+                    Json(json!({ 
+                        "status": "error", 
+                        "database": "unable to signup" 
+                    }))
+                }
             }
 }
 

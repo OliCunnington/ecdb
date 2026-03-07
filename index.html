@@ -45,7 +45,7 @@
         };
 
         var signin_btn = document.getElementById('signin_btn');
-        signup_btn.onclick = function(event){
+        signin_btn.onclick = function(event){
             var message = fetch("http://127.0.0.1:3000/api/signin", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
