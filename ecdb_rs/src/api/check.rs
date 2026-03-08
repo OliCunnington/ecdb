@@ -234,7 +234,6 @@ struct Product {
 pub async fn get_products(State(app_state): State<AppState>) -> Json<Value> {
     match app_state.db.query("SELECT * FROM product").await {
         Ok(mut x) => {
-            println!("{x:?}");
             let r : Vec<Product> = x.take(0).unwrap();
             Json(json!(r))
         },
@@ -261,7 +260,9 @@ struct SigninData {
 
 
 pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {//Json<User> {
-    match app_state.db.signup(Record {
+    
+    tracing::info!("Signup hit, {}", serde_json::to_string(&payload).unwrap());
+    let r =  app_state.db.signup(Record {
                 namespace: "main",
                 database: "ecdb",
                 access: "account",
@@ -271,9 +272,12 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
                     password: payload.password,
                 }
             })
-            .await {
+            .await;
+    tracing::info!("Querry r: {:?}", r);
+    match r {
                 Ok(x) => {
                     println!("{x:?}");
+                    tracing::info!("{x:?}");
                     Json(json!({
                         "token" : x.into_insecure_token()
                     }))
