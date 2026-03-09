@@ -261,7 +261,7 @@ struct SigninData {
 
 pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {//Json<User> {
     
-    tracing::info!("Signup hit, {}", serde_json::to_string(&payload).unwrap());
+    tracing::info!("Signup : {}", serde_json::to_string(&payload).unwrap());
     let r =  app_state.db.signup(Record {
                 namespace: "main",
                 database: "ecdb",
@@ -276,14 +276,14 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
     tracing::info!("Querry r: {:?}", r);
     match r {
                 Ok(x) => {
-                    println!("{x:?}");
+                    // println!("{x:?}");
                     tracing::info!("{x:?}");
                     Json(json!({
                         "token" : x.into_insecure_token()
                     }))
                 },
                 Err(x) => {
-                    println!("{x:?}");
+                    tracing::info!("{x:?}");
                     Json(json!({ 
                         "status": "error", 
                         "database": "unable to signup" 
@@ -293,6 +293,7 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
 }
 
 pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {
+    tracing::info!("Signin : {}", serde_json::to_string(&payload).unwrap());
     match app_state.db.signin(Record {
                 namespace: "main",
                 database: "ecdb",
@@ -304,13 +305,13 @@ pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<Sign
             })
             .await {
                 Ok(x) => {
-                    println!("{x:?}");
+                    tracing::info!("{x:?}");
                     Json(json!({
                         "token" : x.into_insecure_token()
                     }))
                 },
                 Err(x) => { 
-                    println!("{x:?}");
+                    tracing::info!("{x:?}");
                     Json(json!({ 
                         "status": "error", 
                         "database": "unable to signup" 
@@ -320,6 +321,6 @@ pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<Sign
 }
 
 pub async fn sign_out(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> {
+    app_state.db.invalidate().await; // this would do it for root??
     Json(json!({}))
-    //app_state.db.invalidate().await?; // this would do it for root??
 }
