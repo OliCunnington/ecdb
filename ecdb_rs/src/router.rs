@@ -3,6 +3,16 @@ use axum::{
     routing::post, 
     Router,
 };
+use axum_session::{
+    SessionConfig,
+    SessionLayer,
+    SessionStore
+};
+use axum_session_surreal::{
+    SessionSurrealPool, 
+    SessionSurrealSession
+};
+
 use tower_http::{
     trace::TraceLayer,
     cors::CorsLayer,
@@ -22,7 +32,7 @@ pub async fn create_router(app_state: AppState) -> Router {
         .route("/products", get(check::get_products))
         .route("/signup", post(check::sign_up))
         .route("/signin", post(check::sign_in))
-        .route("/signout", post(check::sign_out));
+        .route("/signout", get(check::sign_out));
 
     Router::new()
         .nest("/api", api_routes)

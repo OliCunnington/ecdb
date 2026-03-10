@@ -305,13 +305,13 @@ pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<Sign
             })
             .await {
                 Ok(x) => {
-                    tracing::info!("{x:?}");
+                    tracing::info!("Ok: {x:?}");
                     Json(json!({
                         "token" : x.into_insecure_token()
                     }))
                 },
                 Err(x) => { 
-                    tracing::info!("{x:?}");
+                    tracing::info!("Error: {x:?}");
                     Json(json!({ 
                         "status": "error", 
                         "database": "unable to signup" 
@@ -320,7 +320,21 @@ pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<Sign
             }
 }
 
-pub async fn sign_out(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> {
-    app_state.db.invalidate().await; // this would do it for root??
-    Json(json!({}))
+pub async fn sign_out(State(app_state): State<AppState>) -> Json<Value> {
+    // yup... signs out the root access it seems
+    match app_state.db.invalidate().await {
+                Ok(x) => {
+                    tracing::info!("{x:?}");
+                    Json(json!({
+                        "message": "signed out"
+                    }))
+                },
+                Err(x) => { 
+                    tracing::info!("{x:?}");
+                    Json(json!({ 
+                        "status": "error", 
+                        "database": "unable to sign out" 
+                    }))
+                }
+            }
 }

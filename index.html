@@ -58,6 +58,14 @@
                 .catch(error => console.error('Error:', error));
         };
 
+        var signout_btn = document.getElementById('logout_btn');
+        signout_btn.onclick = function(event){
+            var message = fetch("http://127.0.0.1:3000/api/signout")
+                .then(response => response.json())
+                .then(data => document.getElementById('form_response').textContent = JSON.stringify(data))
+                .catch(error => console.error('Error:', error));
+        };
+
         const message = fetch("http://127.0.0.1:3000/api/test")
                             .then(response => response.text())
                             .then(data => document.getElementById('output_test').textContent = data)
