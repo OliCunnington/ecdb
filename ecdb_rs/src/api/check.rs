@@ -188,7 +188,7 @@ pub async fn hello_world() -> &'static str {
 
 pub async fn get_session_ac(State(app_state): State<AppState>) -> Json<Value> {
         match app_state.db.query("RETURN session::ac()").await {
-            Ok(mut x) => {
+            Ok(x) => {
                 println!("{x:?}");
                 // Json(json!(x.take(0))) //.unwrap()))
                 Json(json!({}))

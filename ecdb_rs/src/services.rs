@@ -24,9 +24,10 @@ pub async fn run_server() -> Result<(), Box<dyn std::error::Error>> {
     
     // Initialize database with config
     let db = crate::db::connection::initialize_database(&config).await?;
+    let session = crate::db::connection::initialize_session(&db).await?;
 
     // Create application state
-    let state = crate::state::AppState::new(config, db);
+    let state = crate::state::AppState::new(config, db, session);
 
     // Check migration status before starting server
     // crate::db::migration::migration_check(&state).await?;

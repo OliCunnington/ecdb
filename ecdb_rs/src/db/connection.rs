@@ -4,6 +4,18 @@ use surrealdb::{
     Surreal,
     Error
 };
+
+use axum_session::{
+    SessionConfig, 
+    // SessionLayer, 
+    SessionStore
+};
+
+use axum_session_surreal::{
+    SessionSurrealPool, 
+    SessionSurrealSession
+};
+
 use std::sync::LazyLock;
 
 use crate::{
@@ -15,6 +27,8 @@ pub type Database = Surreal<Client>;
 
 // Global database instance following the documentation pattern
 static DB: LazyLock<Surreal<Client>> = LazyLock::new(Surreal::init);
+
+static SESSIONSTORE: LazyLock<SessionStore<SessionSurrealPool<Client>>> = LazyLock::new(SessionStore::new(Some(SessionSurrealPool::init), SessionConfig::default()));
 
 pub async fn initialize_database(config: &Config) -> Result<&'static Surreal<Client>, Error> {
     // Connect to SurrealDB server via Web Sockets
@@ -34,4 +48,11 @@ pub async fn initialize_database(config: &Config) -> Result<&'static Surreal<Cli
     DB.use_ns(&config.database_namespace).use_db(&config.database_name).await?;
 
     Ok(&DB)
+}
+
+pub async fn initialize_session(db: &&Surreal<Client>) -> Result<&'static SessionStore<SessionSurrealSession<Client>>, Error> {
+    SESSIONSTORE.new(Some(SessionSurrealPool::new(*db.clone())), SessionConfig::default())
+            .await
+            .unwrap();
+    Ok(&SESSIONSTORE)
 }
