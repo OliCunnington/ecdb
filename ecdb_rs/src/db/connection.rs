@@ -5,16 +5,16 @@ use surrealdb::{
     Error
 };
 
-use axum_session::{
-    SessionConfig, 
-    // SessionLayer, 
-    SessionStore
-};
+// use axum_session::{
+//     SessionConfig, 
+//     // SessionLayer, 
+//     SessionStore
+// };
 
-use axum_session_surreal::{
-    SessionSurrealPool, 
-    SessionSurrealSession
-};
+// use axum_session_surreal::{
+//     SessionSurrealPool, 
+//     SessionSurrealSession
+// };
 
 use std::sync::LazyLock;
 
@@ -28,7 +28,7 @@ pub type Database = Surreal<Client>;
 // Global database instance following the documentation pattern
 static DB: LazyLock<Surreal<Client>> = LazyLock::new(Surreal::init);
 
-static SESSIONSTORE: Option<SessionStore<SessionSurrealPool<Client>>> = None;
+// static SESSIONSTORE: Option<SessionStore<SessionSurrealPool<Client>>> = None;
 
 pub async fn initialize_database(config: &Config) -> Result<&'static Surreal<Client>, Error> {
     // Connect to SurrealDB server via Web Sockets
@@ -50,10 +50,10 @@ pub async fn initialize_database(config: &Config) -> Result<&'static Surreal<Cli
     Ok(&DB)
 }
 
-pub async fn initialize_session(db: &&Surreal<Client>) -> Result<&'static Option<SessionStore<SessionSurrealPool<Client>>>, Error> {
-    // SESSIONSTORE.new(Some(SessionSurrealPool::new(*db.clone())), SessionConfig::default())
-    //         .await
-    //         .unwrap();
-    SESSIONSTORE = Some(SessionStore::<SessionSurrealPool<Client>>::new(Some(DB.clone().into()), SessionConfig::default()).await.unwrap());
-    Ok(&SESSIONSTORE)
-}
+// pub async fn initialize_session(db: &&Surreal<Client>) -> Result<&'static Option<SessionStore<SessionSurrealPool<Client>>>, Error> {
+//     // SESSIONSTORE.new(Some(SessionSurrealPool::new(*db.clone())), SessionConfig::default())
+//     //         .await
+//     //         .unwrap();
+//     SESSIONSTORE = Some(SessionStore::<SessionSurrealPool<Client>>::new(Some(DB.clone().into()), SessionConfig::default()).await.unwrap());
+//     Ok(&SESSIONSTORE)
+// }

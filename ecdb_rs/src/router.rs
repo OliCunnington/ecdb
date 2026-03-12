@@ -3,15 +3,6 @@ use axum::{
     routing::post, 
     Router,
 };
-use axum_session::{
-    SessionConfig,
-    SessionLayer,
-    SessionStore
-};
-use axum_session_surreal::{
-    SessionSurrealPool, 
-    SessionSurrealSession
-};
 
 use tower_http::{
     trace::TraceLayer,
