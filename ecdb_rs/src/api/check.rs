@@ -186,6 +186,16 @@ pub async fn hello_world() -> &'static str {
     "Hello, World!"
 }
 
+pub async fn session(State(app_state): State<AppState>) -> Json<Value> {
+    match app_state.db.query("<string>$session").await {
+        Ok(x) => {
+            println!("{x:?}");
+            Json(json!({"message":"{x:?}"}))
+        },
+        Err(x) => Json(json!({"message":"Error"}))
+    }
+}
+
 pub async fn get_session_ac(State(app_state): State<AppState>) -> Json<Value> {
         match app_state.db.query("RETURN session::ac()").await {
             Ok(x) => {

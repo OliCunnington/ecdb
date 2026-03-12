@@ -32,7 +32,8 @@ pub async fn create_router(app_state: AppState) -> Router {
         .route("/products", get(check::get_products))
         .route("/signup", post(check::sign_up))
         .route("/signin", post(check::sign_in))
-        .route("/signout", get(check::sign_out));
+        .route("/signout", get(check::sign_out))
+        .route("/session", get(check::session));
 
     Router::new()
         .nest("/api", api_routes)

@@ -8,6 +8,9 @@
 <main>
     <body>
         <button id= "logout_btn" type="submit" class="btn">LOG OUT</button>
+        <p id="session"></p>
+        </br>
+        </br>
         <p id='output_test'></p>
         </br>
         <p id='output_customers'></p>
@@ -29,6 +32,11 @@
         <p id="form_response"></p>
     </body>
     <script>
+        const s = fetch("http://127.0.0.1:3000/api/session")
+                            .then(response => response.text())
+                            .then(data => document.getElementById('session').textContent = data)
+                            .catch(error => console.error('Error:', error));
+
         var signup_btn = document.getElementById('signup_btn');
         signup_btn.onclick = function(event){
             var message = fetch("http://127.0.0.1:3000/api/signup", {
