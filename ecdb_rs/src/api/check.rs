@@ -348,3 +348,18 @@ pub async fn sign_out(State(app_state): State<AppState>) -> Json<Value> {
                 }
             }
 }
+
+pub async fn get_product(State(app_state): State<AppState>, id: Json<String>) -> Json<Value> {
+    let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await.unwrap();
+    match prod.take(0) {
+        Ok(x) => {
+            Json(json!(x))
+        },
+        Err(x) => {
+            tracing::info!("{x:?}");
+            Json(json!({
+                "message":"product not found"
+            }))
+        }
+    }
+}
