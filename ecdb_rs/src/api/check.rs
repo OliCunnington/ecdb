@@ -1,4 +1,5 @@
 use axum::{
+    extract::Path,
     extract::State, 
     response::IntoResponse, 
     Json
@@ -376,7 +377,7 @@ pub async fn sign_out(State(app_state): State<AppState>) -> Json<Value> {
             }
 }
 
-pub async fn get_product(State(app_state): State<AppState>, id: String) -> Json<Value> {
+pub async fn get_product(State(app_state): State<AppState>, Path(id): Path<String>) -> Json<Value> {
     // let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await.take(0);
     // match prod {
     //     Ok(x) => {
