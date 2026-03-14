@@ -181,6 +181,33 @@ pub async fn health_check_ready(State(app_state): State<AppState>) -> impl IntoR
     }
 }
 
+mod error {
+    use axum::http::StatusCode;
+    use axum::response::IntoResponse;
+    use axum::response::Response;
+    use axum::Json;
+    use thiserror::Error;
+
+    #[derive(Error, Debug)]
+    pub enum Error {
+        #[error("database error")]
+        Db,
+    }
+
+    impl IntoResponse for Error {
+        fn into_response(self) -> Response {
+            (StatusCode::INTERNAL_SERVER_ERROR, Json(self.to_string())).into_response()
+        }
+    }
+
+    impl From<surrealdb::Error> for Error {
+        fn from(error: surrealdb::Error) -> Self {
+            eprintln!("{error}");
+            Self::Db
+        }
+    }
+}
+
 // basic handler that responds with a static string
 pub async fn hello_world() -> &'static str {
     "Hello, World!"
@@ -189,7 +216,7 @@ pub async fn hello_world() -> &'static str {
 pub async fn session(State(app_state): State<AppState>) -> Json<Value> {
     match app_state.db.query("<string>$session").await {
         Ok(x) => {
-            println!("{x:?}");
+            println!("session: {x:?}");
             Json(json!({"message":"{x:?}"}))
         },
         Err(x) => Json(json!({"message":"Error"}))
@@ -199,7 +226,7 @@ pub async fn session(State(app_state): State<AppState>) -> Json<Value> {
 pub async fn get_session_ac(State(app_state): State<AppState>) -> Json<Value> {
         match app_state.db.query("RETURN session::ac()").await {
             Ok(x) => {
-                println!("{x:?}");
+                println!("session_ac: {x:?}");
                 // Json(json!(x.take(0))) //.unwrap()))
                 Json(json!({}))
             },
@@ -227,7 +254,7 @@ pub async fn get_customers(State(app_state): State<AppState>) -> Json<Value> {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct Product {
     id: RecordId,
     name: String,
@@ -349,17 +376,21 @@ pub async fn sign_out(State(app_state): State<AppState>) -> Json<Value> {
             }
 }
 
-pub async fn get_product(State(app_state): State<AppState>, id: Json<String>) -> Json<Value> {
-    let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await.unwrap();
-    match prod.take(0) {
-        Ok(x) => {
-            Json(json!(x))
-        },
-        Err(x) => {
-            tracing::info!("{x:?}");
-            Json(json!({
-                "message":"product not found"
-            }))
-        }
-    }
+pub async fn get_product(State(app_state): State<AppState>, id: String) -> Json<Value> {
+    // let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await.take(0);
+    // match prod {
+    //     Ok(x) => {
+    //         Json(json!(x))
+    //     },
+    //     Err(x) => {
+    //         tracing::info!("{x:?}");
+    //         Json(json!({
+    //             "message":"product not found"
+    //         }))
+    //     }
+    // }
+    tracing::info!("fetching product : {id:?}");
+    let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await;
+    tracing::info!("{prod:?}");
+    Json(json!(prod))
 }
