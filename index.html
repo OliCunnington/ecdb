@@ -15,7 +15,7 @@
         </br>
         <p id='output_customers'></p>
         </br>
-        <p id='output_products'></p>
+        <ul id='output_products'></ul>
         </br>
         <div class="log-form">
         <h2>Login to your account</h2>
@@ -83,9 +83,21 @@
                             .then(response => response.json())
                             .then(data => document.getElementById('output_customers').textContent = JSON.stringify(data))
                             .catch(error => console.error('Error:', error));
+
         const message3 = fetch("http://127.0.0.1:3000/api/products")
                             .then(response => response.json())
-                            .then(data => document.getElementById('output_products').textContent = JSON.stringify(data))
+                            .then(data => {
+                                data.forEach(p => {
+                                    var li = document.createElement('li');
+                                    var a = document.createElement('a');
+                                    var t = document.createTextNode(p.name);
+                                    a.appendChild(t);
+                                    a.href = "http://127.0.0.1:3000/api/product/" + p.id.id.String;
+                                    li.appendChild(a);
+                                    document.getElementById('output_products').appendChild(li);
+                                })
+                                // document.getElementById('output_products').textContent = JSON.stringify(data)
+                            })
                             .catch(error => console.error('Error:', error));
     </script>
 </main>
