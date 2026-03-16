@@ -290,7 +290,7 @@ pub struct SignupData {
 }
 
 #[derive(Deserialize, Serialize)]
-struct SigninData {
+pub struct SigninData {
     email: String,
     password: String,
 }
@@ -330,7 +330,7 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
             }
 }
 
-pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<SignupData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {
+pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<SigninData>) -> Json<Value> { //Result<surrealdb::opt::auth::Jwt, surrealdb::Error> {
     tracing::info!("Signin : {}", serde_json::to_string(&payload).unwrap());
     match app_state.db.signin(Record {
                 namespace: "main",
