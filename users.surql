@@ -1,6 +1,7 @@
 DEFINE TABLE user SCHEMAFULL
-	PERMISSIONS
-		FOR select, update, delete WHERE id = $auth.id;
+	PERMISSIONS FOR 
+        CREATE, SELECT WHERE $auth,
+		FOR update, delete WHERE id = $auth.id;
 
 DEFINE FIELD name ON user TYPE string;
 DEFINE FIELD email ON user TYPE string ASSERT string::is::email($value);
