@@ -3,6 +3,7 @@ DEFINE TABLE user SCHEMAFULL
         CREATE, SELECT WHERE $auth,
 		FOR update, delete WHERE id = $auth.id;
 
+DEFINE FIELD created_by ON TABLE user VALUE $auth READONLY;
 DEFINE FIELD name ON user TYPE string;
 DEFINE FIELD email ON user TYPE string ASSERT string::is::email($value);
 DEFINE FIELD password ON user TYPE string;
@@ -32,4 +33,5 @@ DEFINE TABLE OVERWRITE review SCHEMAFULL TYPE NORMAL
         FOR select WHERE $auth.id IS NOT NONE
         FOR create, update, delete WHERE created_by = $auth.id;
 
--- curl -X POST -H "Accept: application/json" -d '{"ns":"main","db":"ecdb","ac":"account","name":"user", "email":"123@test.com", "password":"password"}' http://localhost:8000/signup
+-- curl -X POST -H "Accept: application/json" -d '{"ns":"main", "db":"ecdb", "ac":"account", "name":"user", "email":"123@test.com", "password":"password"}' http://localhost:8000/signup
+-- curl -X POST -H "Accept: application/json" -d '{"ns":"main", "db":"ecdb", "ac":"account", "email":"abc@abc.com", "password":"password"}' localhost:8000/signin
