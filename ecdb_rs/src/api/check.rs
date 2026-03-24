@@ -153,17 +153,11 @@ pub async fn sign_up(State(app_state): State<AppState>, Json(payload): Json<Sign
                 database: "ecdb",
                 access: "account",
                 params: payload
-                // params: SignupData {
-                //     name: payload.name,
-                //     email: payload.email,
-                //     password: payload.password,
-                // }
             })
             .await;
     tracing::info!("Result r: {:?}", r);
     match r {
                 Ok(x) => {
-                    // println!("{x:?}");
                     tracing::info!("{x:?}");
                     Json(json!({
                         "token" : x.into_insecure_token()
@@ -186,10 +180,6 @@ pub async fn sign_in(State(app_state): State<AppState>, Json(payload): Json<Sign
                 database: "ecdb",
                 access: "account",
                 params: payload
-                // params: SigninData {
-                //     email: payload.email,
-                //     password: payload.password,
-                // }
             })
             .await {
                 Ok(x) => {
@@ -228,18 +218,6 @@ pub async fn sign_out(State(app_state): State<AppState>) -> Json<Value> {
 }
 
 pub async fn get_product(State(app_state): State<AppState>, Path(id): Path<String>) -> Json<Value> {
-    // let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await.take(0);
-    // match prod {
-    //     Ok(x) => {
-    //         Json(json!(x))
-    //     },
-    //     Err(x) => {
-    //         tracing::info!("{x:?}");
-    //         Json(json!({
-    //             "message":"product not found"
-    //         }))
-    //     }
-    // }
     tracing::info!("fetching product : {id:?}");
     let prod : Result<Option<Product>, _> = app_state.db.select(("product", &*id)).await;
     tracing::info!("{prod:?}");
